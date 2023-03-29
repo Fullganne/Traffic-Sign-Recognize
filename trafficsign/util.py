@@ -8,14 +8,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from skimage import io
 import random
-import tensorflow as tf
-from tensorflow import keras
+from keras.models import load_model
 from PIL import Image
 import os
 import sys
 
-os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID" #If the line below doesn't work, uncomment this line (make sure to comment the line below); it should help.
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
 
@@ -58,15 +56,18 @@ def cropAndDetectTrafficSign(context):
 
     try:
         currentPythonFilePath = os.getcwd()
-        # modelUrl = currentPythonFilePath+'/static/model/model.h5'
-        modelUrl = currentPythonFilePath+'/static/model/model.h5'
-
-        saveDetectImageUrl = currentPythonFilePath+'/static/image/'
+        
+        #sử dụng .replace('\\','/') để thay đổi dấu / đg dẫn.
+        modelUrl = currentPythonFilePath+'/static/model/model.h5'.replace('\\','/')
+        
+        saveDetectImageUrl = currentPythonFilePath+'/static/image/'.replace('\\','/')
         url = currentPythonFilePath + context['url']
+        
 
-        imageType = url.split('.')[-1]
-
-        img = imreadx(url)
+        imageType = url.split('.')[1]
+       
+        img = cv2.imread(url)
+       
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         mask_r1 = cv2.inRange(hsv, (0, 100, 100), (10, 255, 255))
         mask_r2 = cv2.inRange(hsv, (160, 100, 100), (180, 255, 255))
@@ -74,7 +75,7 @@ def cropAndDetectTrafficSign(context):
         target = cv2.bitwise_and(img, img, mask=mask_r)
         gblur = cv2.GaussianBlur(mask_r, (9, 9), 0)
         edge_img = cv2.Canny(gblur, 30, 150)
-
+      
         cv2.imwrite(saveDetectImageUrl + 'original.'+imageType, img)
         cv2.imwrite(saveDetectImageUrl + 'markrange1.'+imageType, mask_r1)
         cv2.imwrite(saveDetectImageUrl + 'markrange2.'+imageType, mask_r2)
@@ -83,7 +84,8 @@ def cropAndDetectTrafficSign(context):
         cv2.imwrite(saveDetectImageUrl + 'edgemap.'+imageType, edge_img)
 
         img2 = img.copy()
-        itmp, cnts, hierarchy = cv2.findContours(
+        # delete the imt
+        cnts, hierarchy = cv2.findContours(
             edge_img.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         cv2.drawContours(img2, cnts, -1, (0, 255, 0), 2)
 
@@ -104,14 +106,14 @@ def cropAndDetectTrafficSign(context):
 
             cv2.imwrite(saveDetectImageUrl +
                         'contourrestrictedforlargeregion.'+imageType, img2)
-
-            crop = img2[b:b+d, a:a+c]
+            #cần sửa crop = img2[b:b+d, a:a+c] thành crop = img2[y:y+h, x:x+w]
+            crop = img2[y:y+h, x:x+w]
 
             cv2.imwrite(saveDetectImageUrl + 'cropimage.'+imageType, crop)
 
-            model = tf.keras.models.load_model(modelUrl)
+            model = load_model(modelUrl)
             data = []
-            image_from_array = Image.fromarray(crop, 'RGB')
+            image_from_array = Image.fromarray(crop, mode='RGB')
          
             crop = image_from_array.resize((30, 30))
 
@@ -121,28 +123,36 @@ def cropAndDetectTrafficSign(context):
 
             X_test = X_test.astype('float32')/255
 
-            prediction = model.predict(X_test)
-            X_test =np.argmax(prediction,axis=1)
+            prediction1 = model.predict(X_test)
+            
+            #lấy giá trị lớn nhất sau khi dự đoán
+            prediction = np.argmax(prediction1)
+            
             return prediction
         except:
             print("cannot border box")
             os.remove(saveDetectImageUrl + 'cropimage.'+imageType)
             cv2.imwrite(saveDetectImageUrl + 'cropimage.'+imageType, img)
-            model = tf.keras.models.load_model(modelUrl)
+            model = load_model(modelUrl)
             data = []
             image_from_array = Image.fromarray(img, 'RGB')
             img = image_from_array.resize((30, 30))
             data.append(np.array(img))
             X_test = np.array(data)
             X_test = X_test.astype('float32')/255
-            prediction = np.argmax(model.predict(X_test),axis=(1))
+
+            prediction1 = model.predict(X_test)
+            #lấy giá trị lớn nhất sau khi dự đoán
+            prediction = np.argmax(prediction1)
+            
             return prediction
     except:
         print("Bug when model predict")
         return [10000]
-
+    
+#bỏ thông số prediction[0] thành prediction
 def detectTrafficSign(request):
     context = uploadFile(request)
     prediction = cropAndDetectTrafficSign(context)
-    context['traffictrainid'] = prediction[0]
+    context['traffictrainid'] = prediction
     return context
