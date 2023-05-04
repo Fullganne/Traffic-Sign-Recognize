@@ -6,7 +6,6 @@ from django.core.files.storage import FileSystemStorage
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from skimage import io
 import random
 from keras.models import load_model
 from PIL import Image
@@ -28,7 +27,7 @@ def uploadFile(request):
 
 
 def imreadx(url):
-    img = io.imread(url)
+    img = cv2.imread(url)
     outimg = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     return outimg
 

@@ -264,19 +264,19 @@
         "description": "báo các loại xe (cơ giới và thô sơ) kể cả các xe được ưu tiên theo quy định phải nhường đường cho các loại xe cơ giới đang đi theo hướng ngược lại qua các đoạn đường hẹp hoặc cầu hẹp"
     },
     {
-        "trafficid": "- 15-",
+        "trafficid": "-15-",
         "image": "/static/image/bien-bao-cam-133.jpg",
         "name": "Biển số 133 \"Hết cấm vượt\"",
         "description": "báo hết đoạn đường cấm vượt"
     },
     {
-        "trafficid": "1000",
+        "trafficid": "-6-",
         "image": "/static/image/bien-bao-cam-134.jpg",
         "name": "Biển số 134 \"Hết hạn chế tốc độ tối đa\"",
         "description": "báo hết đoạn đường hạn chế tốc độ tối đa"
     },
     {
-        "trafficid": "1000",
+        "trafficid": "-14-",
         "image": "/static/image/bien-bao-cam-135.jpg",
         "name": "Biển số 135 \"Hết tất cả các lệnh cấm\"",
         "description": " báo hết đoạn đường mà nhiều biển báo cấm cùng hết hiệu lực"
@@ -366,13 +366,13 @@
         "description": "để báo trước sắp đến đoạn đường do sửa chữa hoặc có trở ngại ở một phía đường mà phải tổ chức đi lại cho phương tiện cả hai chiều trên phía đường còn lại hoặc để báo trước đoạn đường đôi tạm thời hoặc đoạn đường có chiều xe đi và về đi chung"
     },
     {
-        "trafficid": "1000",
+        "trafficid": "-28-",
         "image": "/static/image/bien-bao-nguy-hiem-205a.jpg",
         "name": "Biển số 205a \"Đường giao nhau cùng cấp\"",
         "description": "để báo trước sắp đến nơi giao nhau cùng mức của các tuyến đường cùng cấp (không có đường nào ưu tiên) trên cùng một mặt bằng"
     },
     {
-        "trafficid": "-28-",
+        "trafficid": "-21-",
         "image": "/static/image/bien-bao-nguy-hiem-205b.jpg",
         "name": "Biển số 205b \"Đường giao nhau cùng cấp\"",
         "description": "để báo trước sắp đến nơi giao nhau cùng mức của các tuyến đường cùng cấp (không có đường nào ưu tiên) trên cùng một mặt bằng"
@@ -462,7 +462,7 @@
         "description": "để báo trước sắp đến nơi giao nhau với đường không ưu tiên"
     },
     {
-        "trafficid": "1000",
+        "trafficid": "-19-",
         "image": "/static/image/bien-bao-nguy-hiem-208.jpg",
         "name": "Biển số 208 \"Giao nhau với đường ưu tiên\"",
         "description": "để báo trước sắp đến nơi giao nhau với đường ưu tiên"

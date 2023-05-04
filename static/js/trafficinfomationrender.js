@@ -19,7 +19,7 @@ var trafficinfomationrender = {
 
                 var imageContainer = tr.insertCell();
 
-                imageContainer.innerHTML = '<figure class="image is-64x64"><img src="' +
+                imageContainer.innerHTML = '<figure class="image is-fit-img"><img src="' +
                     data[i].image + '"></figure>';
 
                 var descriptionContainer = tr.insertCell();

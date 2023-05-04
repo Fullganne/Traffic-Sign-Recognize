@@ -228,3 +228,28 @@ body{
   transform: translate(-50%, -50%);
   text-align: center;
 }
+img .is-fit-img{
+  width: fit-content;
+  height: fit-content;
+}
+.is-flex-direction-row {
+  display: flexbox;
+  flex-direction: row;
+}
+.is-justify-content-center {
+  justify-content: center;
+}
+.is-align-items-center {
+  align-items: center;
+}
+.center {
+  display: block;
+  align-items: center;
+  justify-content: center;
+}
+.is-traffic-sign {
+  background: linear-gradient(30deg,white, red, yellow, green);
+}
+.navbar-item span {
+  font-weight: 700;
+}

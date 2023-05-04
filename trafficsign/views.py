@@ -25,7 +25,7 @@ def trafficinfomation(request):
 
 def contact(request):
     context = {}
-    context['title'] = 'Liên hệ'
+    context['title'] = 'Thông tin'
     return render(request, 'contact.html', context=context)
 
 def guide(request):
